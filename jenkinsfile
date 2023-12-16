@@ -1,0 +1,28 @@
+pipeline {
+ agent {
+ label "CI"
+}
+ stages{
+     stage('Run Docker Container') {
+     steps {
+       script {
+		 docker.image('httpd:latest').pull()// Replace image as needed
+        }
+	   script {
+		 docker.image('httpd:latest').run('-p 8282:80') // Replace port mapping as needed
+        }
+     }
+    }
+	 stage('Run container again'){
+	 steps {
+       script {
+		 docker.image('nginx:latest').pull()// Replace image as needed
+        }
+	   script {
+		 docker.image('nginx:latest').run('-p 8284:80') // Replace port mapping as needed
+         
+        }
+	 }
+   }
+}
+}
